@@ -53,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['info'],
             'ignore_exceptions' => false,
         ],
 
@@ -61,6 +61,18 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+
+
+        "info" => [
+            'driver'  => 'monolog',
+            'handler' => Monolog\Handler\FilterHandler::class,
+            'tap' => [App\Logging\CustomizeFormatter::class],
+            'with' => [
+                'handler' => new Monolog\Handler\RotatingFileHandler(storage_path('logs/info.log'), 15),
+                'minLevelOrList' => [Monolog\Logger::INFO],
+            ],
         ],
 
         'daily' => [

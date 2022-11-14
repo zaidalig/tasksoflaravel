@@ -8,6 +8,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Image;
 use Session;
@@ -86,7 +87,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->confirm_password = Hash::make($request->confirm_password);
         $user->save();
-
+        Log::info('User Created ');
         session()->flash('status', 'User Created  successfully');
         return redirect()->route('users.index');
 
@@ -172,6 +173,7 @@ class UserController extends Controller
 
         if ($Updated) {
             $request->session()->flash('status', 'User Info  Updated Successfully');
+            Log::info('User Updated ');
             return redirect()->route('users.index');
 
         }
